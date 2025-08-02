@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npm install)",
+      "Bash(docker run:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(docker-compose build:*)",
+      "Bash(npm install:*)",
+      "Bash(npm rebuild:*)",
+      "Bash(curl:*)",
+      "Bash(powershell:*)",
+      "Bash(yarn backstage-cli versions:check:*)",
+      "Bash(dir packages)"
+    ],
+    "deny": []
+  }
+}

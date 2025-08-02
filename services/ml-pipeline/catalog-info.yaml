@@ -1,0 +1,63 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ml-pipeline-service
+  title: ML Pipeline Service
+  description: Service d'orchestration des pipelines de machine learning
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/services/-/tree/main/ml-pipeline
+    backstage.io/gitlab-project-slug: ai-studio3/services
+  labels:
+    system: ai-studio
+    tier: backend
+    framework: python
+  tags:
+    - backend
+    - python
+    - microservice
+    - api
+spec:
+  type: service
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  providesApis:
+    - ml-pipeline-api
+  dependsOn:
+    - resource:postgres-db
+    - resource:redis-cache
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ml-pipeline-api
+  title: ML Pipeline Service API
+  description: API REST pour Service d'orchestration des pipelines de machine learning
+spec:
+  type: openapi
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: ML Pipeline Service API
+      version: 1.0.0
+      description: Service d'orchestration des pipelines de machine learning
+    servers:
+      - url: http://localhost:3021
+        description: Development server
+    paths:
+      /health:
+        get:
+          summary: Health check
+          responses:
+            '200':
+              description: Service opérationnel
+      /api/v1:
+        get:
+          summary: API endpoint
+          responses:
+            '200':
+              description: Succès

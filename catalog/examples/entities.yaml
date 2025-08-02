@@ -1,0 +1,165 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: portal-shell
+  title: Portal Shell (MFE Host)
+  description: Application shell principale orchestrant tous les micro-frontends d'AI Studio
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/mfe/-/tree/main/portal
+  tags:
+    - frontend
+    - react
+    - module-federation
+    - shell
+spec:
+  type: website
+  lifecycle: production
+  owner: frontend-team
+  system: ai-studio
+  dependsOn:
+    - component:auth-mfe
+    - component:chat-mfe
+    - component:ai-models-mfe
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: auth-mfe
+  title: Authentication MFE
+  description: Micro-frontend de gestion de l'authentification avec SSO et MFA
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/mfe/-/tree/main/auth
+  tags:
+    - frontend
+    - react
+    - authentication
+    - keycloak
+spec:
+  type: website
+  lifecycle: production
+  owner: frontend-team
+  system: ai-studio
+  providesApis:
+    - auth-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: model-runtime-service
+  title: Model Runtime Service
+  description: Service de gestion et déploiement de modèles ML/AI
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/services/-/tree/main/model-runtime
+  tags:
+    - backend
+    - python
+    - fastapi
+    - ml
+    - ai
+spec:
+  type: service
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  providesApis:
+    - model-runtime-api
+  dependsOn:
+    - resource:postgres-db
+    - resource:redis-cache
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: security-service
+  title: Security Service
+  description: Service de sécurité centralisé avec authentification enterprise et conformité
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/services/-/tree/main/security
+  tags:
+    - backend
+    - go
+    - security
+    - compliance
+spec:
+  type: service
+  lifecycle: production
+  owner: security-team
+  system: ai-studio
+  providesApis:
+    - security-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: auth-api
+  title: Authentication API
+  description: API d'authentification et autorisation
+spec:
+  type: openapi
+  lifecycle: production
+  owner: frontend-team
+  system: ai-studio
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Authentication API
+      version: 1.0.0
+    paths:
+      /auth/login:
+        post:
+          summary: Authentification utilisateur
+          responses:
+            '200':
+              description: Connexion réussie
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: model-runtime-api
+  title: Model Runtime API
+  description: API de gestion des modèles ML/AI
+spec:
+  type: openapi
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Model Runtime API
+      version: 1.0.0
+    paths:
+      /api/v1/models:
+        get:
+          summary: Liste des modèles disponibles
+          responses:
+            '200':
+              description: Liste des modèles
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: postgres-db
+  title: PostgreSQL Database
+  description: Base de données principale pour les services AI Studio
+spec:
+  type: database
+  lifecycle: production
+  owner: platform-team
+  system: ai-studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: redis-cache
+  title: Redis Cache
+  description: Cache distribué pour les services AI Studio
+spec:
+  type: cache
+  lifecycle: production
+  owner: platform-team
+  system: ai-studio

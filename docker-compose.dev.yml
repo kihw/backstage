@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backstage:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=backstage
+      - POSTGRES_DB=backstage_plugin_catalog
+      - BACKEND_SECRET=your-secret-here
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITLAB_TOKEN=${GITLAB_TOKEN}
+    ports:
+      - "3100:3000"
+      - "7007:7007"
+    depends_on:
+      - postgres
+    volumes:
+      - ./app-config.yaml:/app/app-config.yaml
+      - ./.env:/app/.env
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: backstage
+      POSTGRES_DB: backstage_plugin_catalog
+    ports:
+      - "5432:5432"
+    volumes:
+      - backstage_data:/var/lib/postgresql/data
+
+volumes:
+  backstage_data:

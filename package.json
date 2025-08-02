@@ -1,0 +1,56 @@
+{
+  "name": "ai-studio-backstage",
+  "version": "1.0.0",
+  "description": "Backstage instance for AI Studio - Developer Portal",
+  "private": true,
+  "engines": {
+    "node": "18 || 20"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm run start\" \"npm run start-backend\"",
+    "start": "npm run start --workspace=packages/app",
+    "start-backend": "npm run start --workspace=packages/backend",
+    "build": "backstage-cli repo build --all",
+    "build-image": "npm run build && npm run build-image-backend && npm run build-image-frontend",
+    "build-image-backend": "npm run build-image --workspace=packages/backend",
+    "build-image-frontend": "npm run build-image --workspace=packages/app",
+    "tsc": "tsc",
+    "tsc:full": "tsc --skipLibCheck false --incremental false",
+    "clean": "backstage-cli repo clean",
+    "test": "backstage-cli repo test",
+    "test:all": "backstage-cli repo test --coverage",
+    "lint": "backstage-cli repo lint --since origin/main",
+    "lint:all": "backstage-cli repo lint",
+    "prettier:check": "prettier --check .",
+    "new": "backstage-cli new --scope ai-studio"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "plugins/*"
+    ]
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.26.0",
+    "@spotify/prettier-config": "^15.0.0",
+    "concurrently": "^8.0.0",
+    "lerna": "^7.3.0",
+    "node-gyp": "^10.0.0",
+    "prettier": "^2.3.2",
+    "typescript": "~5.2.0"
+  },
+  "resolutions": {
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  },
+  "prettier": "@spotify/prettier-config",
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}

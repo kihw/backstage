@@ -1,0 +1,46 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ai-studio
+  title: AI Studio Platform
+  description: Plateforme complète d'intelligence artificielle avec architecture microservices
+  annotations:
+    backstage.io/managed-by-location: url:https://gitlab.com/ai-studio3/backstage/-/blob/main/catalog/systems/ai-studio-system.yaml
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3
+  tags:
+    - platform
+    - ai
+    - microservices
+    - typescript
+    - go
+    - python
+spec:
+  owner: ai-studio-team
+  domain: artificial-intelligence
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: artificial-intelligence
+  title: Intelligence Artificielle
+  description: Domaine couvrant tous les services et composants liés à l'IA
+spec:
+  owner: ai-studio-team
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ai-studio-team
+  title: AI Studio Team
+  description: Équipe de développement de la plateforme AI Studio
+spec:
+  type: team
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: ai-studio-admin
+  title: AI Studio Administrator
+spec:
+  memberOf: [ai-studio-team]
