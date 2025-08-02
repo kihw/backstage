@@ -1,0 +1,4 @@
+{
+  "extends": "@backstage/cli/config/eslint.js",
+  "plugins": ["react", "@typescript-eslint"]
+}
