@@ -35,6 +35,18 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 
 const app = createApp({
   apis,
+  components: {
+    SignInPage: props => {
+      props.onSignInSuccess({
+        userId: 'guest',
+        profile: {
+          email: 'guest@example.com',
+          displayName: 'Guest User',
+        },
+      });
+      return null;
+    },
+  },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
