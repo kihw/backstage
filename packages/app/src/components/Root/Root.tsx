@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   SidebarPage,
@@ -7,17 +7,18 @@ import {
   SidebarDivider,
   SidebarGroup,
   SidebarItem,
+  SidebarScrollWrapper,
   SidebarSpace,
   useSidebarOpenState,
 } from '@backstage/core-components';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-import SettingsIcon from '@material-ui/icons/Settings';
-import HomeIcon from '@material-ui/icons/Home';
-import DocsIcon from '@material-ui/icons/Description';
-import CatalogIcon from '@material-ui/icons/MenuBook';
-import ApiIcon from '@material-ui/icons/Extension';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import CreateComponentIcon from '@mui/icons-material/AddCircleOutline';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HomeIcon from '@mui/icons-material/Home';
+import DocsIcon from '@mui/icons-material/Description';
+import CatalogIcon from '@mui/icons-material/MenuBook';
+import ApiIcon from '@mui/icons-material/Extension';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 
@@ -74,11 +75,5 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
     </BackstageSidebar>
     {children}
   </SidebarPage>
-);
-
-const SidebarScrollWrapper = ({ children }: PropsWithChildren<{}>) => (
-  <div style={{ height: '100%', overflow: 'hidden auto' }}>
-    {children}
-  </div>
 );
 

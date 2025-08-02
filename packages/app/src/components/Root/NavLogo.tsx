@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, makeStyles } from '@material-ui/core';
+import { Link } from '@backstage/core-components';
+import { makeStyles } from '@mui/styles';
 import LogoFull from './LogoFull';
 
 const useStyles = makeStyles({
