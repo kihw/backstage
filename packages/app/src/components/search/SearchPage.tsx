@@ -2,7 +2,6 @@ import React from 'react';
 import { Content, Header, Page } from '@backstage/core-components';
 import { SearchFilter, SearchResult } from '@backstage/plugin-search-react';
 import {
-  CatalogResultListItem,
   CatalogSearchResultListItem,
 } from '@backstage/plugin-catalog';
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
