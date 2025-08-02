@@ -11,7 +11,8 @@
       "Bash(curl:*)",
       "Bash(powershell:*)",
       "Bash(yarn backstage-cli versions:check:*)",
-      "Bash(dir packages)"
+      "Bash(dir packages)",
+      "WebFetch(domain:backstage.io)"
     ],
     "deny": []
   }

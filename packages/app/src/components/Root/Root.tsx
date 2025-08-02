@@ -1,9 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { Header, Page, Sidebar, SidebarPage } from '@backstage/core-components';
-import { NavLogo } from './NavLogo';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
+  SidebarPage,
   Sidebar as BackstageSidebar,
   SidebarDivider,
   SidebarGroup,
@@ -14,6 +13,11 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
+import SettingsIcon from '@material-ui/icons/Settings';
+import HomeIcon from '@material-ui/icons/Home';
+import DocsIcon from '@material-ui/icons/Description';
+import CatalogIcon from '@material-ui/icons/MenuBook';
+import ApiIcon from '@material-ui/icons/Extension';
 import LogoFull from './LogoFull';
 import LogoIcon from './LogoIcon';
 
@@ -46,26 +50,26 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
       <SidebarDivider />
       <SidebarGroup label="Menu" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
-        <SidebarItem icon={CreateComponentIcon} to="catalog" text="Home" />
-        <SidebarItem icon={CreateComponentIcon} to="docs" text="Docs" />
+        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
+        <SidebarItem icon={DocsIcon} to="docs" text="Docs" />
         <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
-          <SidebarItem icon={CreateComponentIcon} to="catalog" text="Catalog" />
-          <SidebarItem icon={CreateComponentIcon} to="api-docs" text="APIs" />
-          <SidebarItem icon={CreateComponentIcon} to="techdocs" text="TechDocs" />
-          <SidebarItem icon={CreateComponentIcon} to="catalog-graph" text="Graph" />
+          <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
+          <SidebarItem icon={ApiIcon} to="api-docs" text="APIs" />
+          <SidebarItem icon={DocsIcon} to="techdocs" text="TechDocs" />
+          <SidebarItem icon={CatalogIcon} to="catalog-graph" text="Graph" />
         </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />
       <SidebarDivider />
       <SidebarGroup
         label="Settings"
-        icon={<UserSettingsSignInAvatar />}
+        icon={<SettingsIcon />}
         to="/settings"
       >
-        <SidebarSettings />
+        <SidebarItem icon={SettingsIcon} to="/settings" text="Settings" />
       </SidebarGroup>
     </BackstageSidebar>
     {children}
@@ -78,6 +82,3 @@ const SidebarScrollWrapper = ({ children }: PropsWithChildren<{}>) => (
   </div>
 );
 
-// Placeholder components - you'll need to implement these or use existing ones
-const UserSettingsSignInAvatar = () => <MenuIcon />;
-const SidebarSettings = () => null;
