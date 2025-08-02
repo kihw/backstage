@@ -1,0 +1,11 @@
+{
+  "extends": "@backstage/cli/config/tsconfig.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": false
+  },
+  "files": [],
+  "references": [
+    { "path": "packages/app" },
+    { "path": "packages/backend" }
+  ]
+}
