@@ -1,0 +1,57 @@
+# Ressources et infrastructures AI Studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: postgres-db
+  title: PostgreSQL Database
+  description: Base de données PostgreSQL principale
+  tags:
+    - database
+    - postgresql
+spec:
+  type: database
+  owner: platform-team
+  system: ai-studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: redis-cache
+  title: Redis Cache
+  description: Cache Redis pour les sessions et données temporaires
+  tags:
+    - cache
+    - redis
+spec:
+  type: cache
+  owner: platform-team
+  system: ai-studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: s3-storage
+  title: S3 Object Storage
+  description: Stockage objet S3 pour les fichiers et modèles
+  tags:
+    - storage
+    - s3
+spec:
+  type: storage
+  owner: platform-team
+  system: ai-studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: kubernetes-cluster
+  title: Kubernetes Production Cluster
+  description: Cluster Kubernetes de production
+  tags:
+    - kubernetes
+    - infrastructure
+spec:
+  type: kubernetes-cluster
+  owner: platform-team
+  system: ai-studio

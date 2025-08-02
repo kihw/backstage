@@ -1,0 +1,77 @@
+# Exemple de catalog-info.yaml pour un service backend
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mon-service-api
+  title: Mon Service API
+  description: Service API principal pour la gestion des utilisateurs
+  annotations:
+    # Documentation
+    backstage.io/techdocs-ref: dir:.
+    
+    # Lien vers le code source GitLab
+    gitlab.com/project-slug: ai-studio3/mon-service-api
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/mon-service-api
+    
+    # CI/CD
+    gitlab.com/project-id: '12345'
+    
+    # Monitoring
+    prometheus.io/rule: 'container_cpu_usage_seconds_total{pod=~"mon-service-api-.*"}'
+    grafana/dashboard-url: https://grafana.company.com/d/mon-service-api
+    
+    # Autres
+    pagerduty.com/service-id: PXXXXXXX
+    sentry.io/project-slug: mon-service-api
+  tags:
+    - backend
+    - nodejs
+    - api
+    - production
+spec:
+  type: service
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  
+  # APIs fournies
+  providesApis:
+    - mon-service-api-v1
+  
+  # Dépendances
+  dependsOn:
+    - resource:postgres-db
+    - resource:redis-cache
+    - component:auth-service
+  
+  # APIs consommées
+  consumesApis:
+    - openai-api
+    - notification-api
+---
+# Définition de l'API
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: mon-service-api-v1
+  title: Mon Service API v1
+  description: API REST pour la gestion des utilisateurs
+spec:
+  type: openapi
+  lifecycle: production
+  owner: backend-team
+  system: ai-studio
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Mon Service API
+      version: 1.0.0
+    servers:
+      - url: https://api.ai-studio.com/v1
+    paths:
+      /users:
+        get:
+          summary: Liste des utilisateurs
+          responses:
+            '200':
+              description: Success

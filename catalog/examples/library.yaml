@@ -1,0 +1,36 @@
+# Exemple de catalog-info.yaml pour une bibliothèque partagée
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-studio-sdk
+  title: AI Studio SDK
+  description: SDK JavaScript/TypeScript pour interagir avec les APIs AI Studio
+  annotations:
+    # Documentation
+    backstage.io/techdocs-ref: dir:.
+    
+    # Source
+    gitlab.com/project-slug: ai-studio3/ai-studio-sdk
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/ai-studio-sdk
+    
+    # Package registry
+    npm.com/package: '@ai-studio/sdk'
+    
+    # Version
+    version: 2.3.1
+  tags:
+    - library
+    - sdk
+    - typescript
+    - npm
+spec:
+  type: library
+  lifecycle: production
+  owner: platform-team
+  system: ai-studio
+  
+  # Cette bibliothèque est utilisée par
+  dependencyOf:
+    - component:ai-studio-web
+    - component:mobile-app
+    - component:cli-tool

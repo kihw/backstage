@@ -1,0 +1,70 @@
+# APIs externes utilisées par AI Studio
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: openai-api
+  title: OpenAI API
+  description: API OpenAI pour les modèles GPT-4, GPT-3.5
+  tags:
+    - external
+    - ai
+    - llm
+spec:
+  type: openapi
+  lifecycle: production
+  owner: external-providers
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: OpenAI API
+      version: v1
+    servers:
+      - url: https://api.openai.com/v1
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: anthropic-api
+  title: Anthropic Claude API
+  description: API Anthropic pour les modèles Claude
+  tags:
+    - external
+    - ai
+    - llm
+spec:
+  type: openapi
+  lifecycle: production
+  owner: external-providers
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Anthropic API
+      version: v1
+    servers:
+      - url: https://api.anthropic.com/v1
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: gitlab-api
+  title: GitLab API
+  description: API GitLab pour la gestion des repos et CI/CD
+  links:
+    - url: https://docs.gitlab.com/ee/api/
+      title: Documentation
+  tags:
+    - external
+    - vcs
+    - cicd
+spec:
+  type: openapi
+  lifecycle: production
+  owner: external-providers
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: GitLab API
+      version: v4
+    servers:
+      - url: https://gitlab.com/api/v4

@@ -1,273 +1,100 @@
-﻿app:
-  title: AI Studio Developer Portal
-  baseUrl: http://localhost:3200
+app:
+  title: AI Studio Tech Catalog
+  baseUrl: http://localhost:3000
   support:
-    url: https://github.com/ai-studio/ai-studio/issues
+    url: https://gitlab.com/ai-studio3/backstage/-/issues
     items:
       - title: Issues
-        icon: github
+        icon: gitlab
         links:
-          - url: https://github.com/ai-studio/ai-studio/issues
-            title: GitHub Issues
+          - url: https://gitlab.com/ai-studio3/backstage/-/issues
+            title: GitLab Issues
 
 organization:
   name: AI Studio
 
 backend:
-  # Used for enabling authentication, secret is shared by all backend plugins
-  # See https://backstage.io/docs/auth/service-to-service-auth for information on the format
   auth:
-    externalAccess:
-      - type: static
-        options:
-          token: ${BACKEND_SECRET:-your-secret-token}
-          subject: backstage-server
-  baseUrl: http://localhost:7008
+    keys:
+      - secret: ${AUTH_BACKEND_SECRET}
+  baseUrl: http://localhost:7007
   listen:
-    port: 7008
-    # Uncomment the following host directive to bind to specific interfaces
-    # host: 127.0.0.1
+    port: 7007
   csp:
     connect-src: ["'self'", 'http:', 'https:']
-    # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
-    # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   cors:
-    origin: http://localhost:3200
+    origin: http://localhost:3000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
-  # This is for local development only, it is not recommended to use this in production
-  # The production database configuration is stored in app-config.production.yaml
   database:
     client: better-sqlite3
     connection: ':memory:'
-  # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 integrations:
-  gitlab:
-    - host: gitlab.com
-      # This is a Personal Access Token that allows Backstage to access the GitLab API.
-      # You can find out how to generate this token, and more information about setting up the GitLab integration here:
-      # https://backstage.io/docs/integrations/gitlab/locations
-      token: ${GITLAB_TOKEN}
-      apiBaseUrl: https://gitlab.com/api/v4
-      # Configuration pour le groupe ai-studio3 avec architecture distribuÃ©e
   github:
     - host: github.com
-      # This is a Personal Access Token or App token that allows Backstage to access the GitHub API.
-      # You can find out how to generate this token, and more information about setting up the GitHub integration here:
-      # https://backstage.io/docs/integrations/github/locations
       token: ${GITHUB_TOKEN}
-    ### Example for how to add your GitHub Enterprise instance using the API:
-    # - host: ghe.example.net
-    #   apiBaseUrl: https://ghe.example.net/api/v3
-    #   token: ${GHE_TOKEN}
+  gitlab:
+    - host: gitlab.com
+      token: ${GITLAB_TOKEN}
+  azure:
+    - host: dev.azure.com
+      token: ${AZURE_TOKEN}
+  bitbucket:
+    - host: bitbucket.org
+      username: ${BITBUCKET_USERNAME}
+      password: ${BITBUCKET_PASSWORD}
 
 proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS certificate issues
-  #
-  # '/test':
-  #   target: 'https://example.com'
-  #   changeOrigin: true
+  '/jenkins':
+    target: 'http://your-jenkins.example.com'
+    changeOrigin: true
+    headers:
+      Authorization: Basic ${JENKINS_AUTH}
 
-# Reference documentation http://backstage.io/docs/features/techdocs/configuration
-# Note: After experimenting with basic setup, use CI/CD to generate docs
-# and an external cloud storage when deploying TechDocs for production use-case.
-# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
 techdocs:
-  builder: 'local' # Alternatives - 'external'
+  builder: 'local'
   generator:
-    runIn: 'local' # Alternatives - 'local'
+    runIn: 'docker'
   publisher:
-    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+    type: 'local'
 
 auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
   providers:
-    # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
 scaffolder:
-  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+  defaultAuthor:
+    name: Backstage Scaffolder
+    email: scaffolder@backstage.io
 
 catalog:
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
-  useUrlReadersSearch: true
+    - allow: [Component, System, API, Resource, Location, Domain, Group, User]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
+    # Système principal AI Studio
     - type: file
-      target: ../../examples/entities.yaml
-
-    # Local example template
+      target: ../../catalog/systems/ai-studio-system.yaml
+      
+    # Découverte automatique des repos dans le groupe ai-studio3
+    - type: gitlab-discovery
+      target: https://gitlab.com/ai-studio3/*/blob/main/catalog-info.yaml
+      
+    # Services existants documentés
     - type: file
-      target: ../../examples/template/template.yaml
-      rules:
-        - allow: [Template]
-
-    # Local example organizational data
+      target: ../../catalog/examples/entities.yaml
+      
+    # APIs externes utilisées par AI Studio
     - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
-    ## Uncomment these lines to add more example data
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-
-    ## Uncomment these lines to add an example org
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-    #   rules:
-    #     - allow: [User, Group]
-
-    # AI Studio Group - Architecture distribuÃ©e
-    # SystÃ¨me principal AI Studio (depuis futur repo backstage)
-    - type: url
-      target: https://gitlab.com/ai-studio3/backstage/-/raw/main/catalog/systems/ai-studio-system.yaml
-      rules:
-        - allow: [System, Component, API, Resource, Domain, Group, User]
-
-    # Frontend MFEs - Repo ai-studio3/mfe
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/portal/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/auth/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/chat/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/ai-models/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/analytics/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/file-manager/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/monitoring/catalog-info.yaml
-      rules:
-        - allow: [Component]
-    - type: url
-      target: https://gitlab.com/ai-studio3/mfe/-/raw/main/workflow-designer/catalog-info.yaml
-      rules:
-        - allow: [Component]
-
-    # Backend Services - Repo ai-studio3/services
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/model-runtime/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/security/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/messaging/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/file-storage/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/vectors/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/workflow-engine/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/notifications/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/integrations/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/system-monitoring/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/api-gateway/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/user-management/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/analytics-processor/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/ml-pipeline/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/data-ingestion/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/search-engine/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/audit-logging/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/backup-service/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/config-management/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/health-checker/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/email-service/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-    - type: url
-      target: https://gitlab.com/ai-studio3/services/-/raw/main/scheduler-service/catalog-info.yaml
-      rules:
-        - allow: [Component, API]
-
-    # Shared Components - Repo ai-studio3/shared
-    - type: url
-      target: https://gitlab.com/ai-studio3/shared/-/raw/main/design-system/catalog-info.yaml
-      rules:
-        - allow: [Component, Resource]
-
-kubernetes:
-  serviceLocatorMethod:
-    type: 'multiTenant'
-  clusterLocatorMethods:
-    - type: 'config'
-      clusters:
-        - url: ${K8S_CLUSTER_URL}
-          name: ai-studio-cluster
-          authProvider: 'serviceAccount'
-          skipTLSVerify: false
-          skipMetricsLookup: false
-          serviceAccountToken: ${K8S_SERVICE_ACCOUNT_TOKEN}
-          dashboardUrl: ${K8S_DASHBOARD_URL}
-          dashboardApp: standard
+      target: ../../catalog/external-apis.yaml
+      
+    # Ressources et infrastructures
+    - type: file
+      target: ../../catalog/resources.yaml

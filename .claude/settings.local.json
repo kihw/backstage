@@ -12,7 +12,8 @@
       "Bash(powershell:*)",
       "Bash(yarn backstage-cli versions:check:*)",
       "Bash(dir packages)",
-      "WebFetch(domain:backstage.io)"
+      "WebFetch(domain:backstage.io)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

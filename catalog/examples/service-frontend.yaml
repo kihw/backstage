@@ -1,0 +1,45 @@
+# Exemple de catalog-info.yaml pour une application frontend
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-studio-web
+  title: AI Studio Web App
+  description: Application web principale d'AI Studio
+  annotations:
+    # Documentation
+    backstage.io/techdocs-ref: dir:.
+    
+    # Source code
+    gitlab.com/project-slug: ai-studio3/ai-studio-web
+    backstage.io/source-location: url:https://gitlab.com/ai-studio3/ai-studio-web
+    
+    # CI/CD
+    gitlab.com/project-id: '67890'
+    
+    # Liens utiles
+    backstage.io/view-url: https://app.ai-studio.com
+    backstage.io/edit-url: https://gitlab.com/ai-studio3/ai-studio-web/-/edit
+    
+    # Monitoring
+    lighthouse.com/website-url: https://app.ai-studio.com
+  tags:
+    - frontend
+    - react
+    - typescript
+    - spa
+spec:
+  type: website
+  lifecycle: production
+  owner: frontend-team
+  system: ai-studio
+  
+  # APIs consommées
+  consumesApis:
+    - mon-service-api-v1
+    - auth-api
+    - analytics-api
+  
+  # Dépendances
+  dependsOn:
+    - component:design-system
+    - resource:cdn
