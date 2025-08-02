@@ -42,6 +42,12 @@ backend:
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
+events:
+  eventBus:
+    type: memory
+  eventStorage:
+    type: database
+
 integrations:
   gitlab:
     - host: gitlab.com
@@ -97,6 +103,8 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   useUrlReadersSearch: true
+  events:
+    enabled: false
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
