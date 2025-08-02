@@ -38,11 +38,7 @@ import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
 import { EmptyState } from '@backstage/core-components';
 import {
   Content,
-  Header,
-  HeaderLabel,
-  HeaderTabs,
   InfoCard,
-  Page,
   Button,
 } from '@backstage/core-components';
 
