@@ -59,7 +59,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         <SidebarScrollWrapper>
           <SidebarItem icon={CatalogIcon} to="catalog" text="Catalog" />
           <SidebarItem icon={ApiIcon} to="api-docs" text="APIs" />
-          <SidebarItem icon={DocsIcon} to="techdocs" text="TechDocs" />
+          <SidebarItem icon={DocsIcon} to="docs" text="TechDocs" />
           <SidebarItem icon={CatalogIcon} to="catalog-graph" text="Graph" />
         </SidebarScrollWrapper>
       </SidebarGroup>
