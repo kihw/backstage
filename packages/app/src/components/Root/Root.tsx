@@ -41,6 +41,12 @@ const SidebarLogo = () => {
   );
 };
 
+const SidebarScrollWrapper = ({ children }: PropsWithChildren<{}>) => (
+  <div style={{ height: '100%', overflow: 'hidden auto' }}>
+    {children}
+  </div>
+);
+
 export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <BackstageSidebar>
