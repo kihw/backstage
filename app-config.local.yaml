@@ -1,0 +1,7 @@
+backend:
+  auth:
+    externalAccess:
+      - type: static
+        options:
+          token: ${BACKEND_SECRET:-your-secret-token}
+          subject: backstage-server
