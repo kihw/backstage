@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
 import {
   EntityHasComponentsCard,
   EntityHasResourcesCard,
@@ -44,6 +43,7 @@ import {
   HeaderTabs,
   InfoCard,
   Page,
+  Button,
 } from '@backstage/core-components';
 
 const entityWarningContent = (
